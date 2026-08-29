@@ -4,17 +4,25 @@ import axiosInstance from '../axiosConfig';
 
 const TaskForm = ({ tasks, setTasks, editingTask, setEditingTask }) => {
   const { user } = useAuth();
-  const [formData, setFormData] = useState({ title: '', description: '', deadline: '' });
+  const [formData, setFormData] = useState({ title: '', price:'',category:'', description:'',photo:'' });
 
   useEffect(() => {
     if (editingTask) {
       setFormData({
         title: editingTask.title,
+        price: editingTask.price ,
+        category: editingTask.category ,
         description: editingTask.description,
-        deadline: editingTask.deadline,
+        photo: editingTask.photo,
       });
     } else {
-      setFormData({ title: '', description: '', deadline: '' });
+      setFormData({ 
+        title: '',
+        price: '',
+        category: '',
+        description: '',
+        photo: '',
+});
     }
   }, [editingTask]);
 
@@ -33,37 +41,62 @@ const TaskForm = ({ tasks, setTasks, editingTask, setEditingTask }) => {
         setTasks([...tasks, response.data]);
       }
       setEditingTask(null);
-      setFormData({ title: '', description: '', deadline: '' });
+      setFormData({ title: '',
+        price: '',
+        category: '',
+        description: '',
+        photo: '' });
     } catch (error) {
-      alert('Failed to save task.');
+      alert('Failed to save menu item.');
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 shadow-md rounded mb-6">
-      <h1 className="text-2xl font-bold mb-4">{editingTask ? 'Edit Task' : 'Add Task'}</h1>
+      <h1 className="text-2xl font-bold mb-4">{editingTask ? 'Edit Munu Item' : 'Add Menu Item'}</h1>
       <input
         type="text"
-        placeholder="Title"
+        name="title"
+        placeholder="Menu Name"
         value={formData.title}
         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
       <input
+        type="number"
+        name="price"
+        placeholder="Price"
+        value={formData.price}
+        onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+        className="w-full mb-4 p-2 border rounded"
+      />
+      <input
         type="text"
-        placeholder="Description"
+        name="category"
+        placeholder="Category"
+        value={formData.category}
+        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+        className="w-full mb-4 p-2 border rounded"
+      />
+      <textarea
+        name="description"
+        placeholder="Description (optional)"
         value={formData.description}
         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
       <input
-        type="date"
-        value={formData.deadline}
-        onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
+        type="url"
+        name="photo"
+       placeholder="Photo URL (optional)"
+        value={formData.photo}
+        onChange={(e) => setFormData({ ...formData, photo: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
+
+
       <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded">
-        {editingTask ? 'Update Task' : 'Add Task'}
+        {editingTask ? 'Edit Menu Item' : 'Add Menu Item'}
       </button>
     </form>
   );
