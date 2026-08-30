@@ -79,7 +79,7 @@ const TaskForm = ({ tasks, setTasks, editingTask, setEditingTask }) => {
         placeholder="Price(required)"
         value={formData.price}
         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-        min="0.01"
+        min="0"
         step="0.01"
         className="w-full mb-4 p-2 border rounded"
       />

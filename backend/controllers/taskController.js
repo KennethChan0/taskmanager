@@ -34,7 +34,7 @@ const addTask = async (req, res) => {
     }
 
     const price_number = Number(price);
-    if(price_number<=0.01||!Number.isFinite(price_number) ){
+    if(price_number<0||!Number.isFinite(price_number) ){
         errors.price = 'Price must be greater than 0.'
     }
 
@@ -68,14 +68,46 @@ const addTask = async (req, res) => {
 
 
 const updateTask = async (req, res) => {
-    const { title, description, completed, deadline } = req.body;
+    const { title, price, category, description, photo } = req.body;
+    const errors = {};
+
+    if(title ===null||title===""||title ===undefined|| title.trim()===""){
+        errors.title = "Food Item Name is required"
+    }
+
+    const price_number = Number(price);
+    if(price_number<0||!Number.isFinite(price_number) ){
+        errors.price = 'Price must be greater than 0.'
+    }
+
+    if (category===null||category===""||category===undefined||category.trim()==="") {
+    errors.category = 'Category is required.';
+    }
+
+    if (description===null||description===""||description===undefined || description.trim() === '') {
+  errors.description = 'Description is required.';
+}
+
+    if (!photo && !checkPhoto(photo.trim())) {
+        errors.photo = 'Photo must be a valid URL.';
+    }
+    
+    if (Object.keys(errors).length > 0) {
+    return res.status(400).json({
+       errors:errors
+    });
+  }
+
     try {
         const task = await Task.findById(req.params.id);
-        if (!task) return res.status(404).json({ message: 'Task not found' });
-        task.title = title || task.title;
-        task.description = description || task.description;
-        task.completed = completed ?? task.completed;
-        task.deadline = deadline || task.deadline;
+        if (!task) return res.status(404).json({ message: 'Menu item not found' });
+        
+        task.title = title.trim();
+        task.price = price_number;
+        task.category = category.trim();
+        task.description = description.trim();
+        task.photo = photo.trim();
+
         const updatedTask = await task.save();
         res.json(updatedTask);
     } catch (error) {
