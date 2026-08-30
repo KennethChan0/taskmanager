@@ -34,7 +34,8 @@ const TaskList = ({ tasks, setTasks, setEditingTask }) => {
           <p >
             Price: ${Number(task.price)}
           </p>
-
+          
+          {user.role === 'restaurant' && (
           <div className="mt-2">
             <button
               onClick={() => setEditingTask(task)}
@@ -49,6 +50,7 @@ const TaskList = ({ tasks, setTasks, setEditingTask }) => {
               Delete Menu Item
             </button>
           </div>
+          )}
         </div>
       ))}
     </div>

@@ -26,12 +26,15 @@ const Tasks = () => {
 
   return (
     <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-6 text-center">Menu</h1>
+      {user.role === 'restaurant' && (
       <TaskForm
         tasks={tasks}
         setTasks={setTasks}
         editingTask={editingTask}
         setEditingTask={setEditingTask}
       />
+      )}
       <TaskList tasks={tasks} setTasks={setTasks} setEditingTask={setEditingTask} />
     </div>
   );
