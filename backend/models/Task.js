@@ -6,8 +6,8 @@ const taskSchema = new mongoose.Schema({
     title: { type: String, required: true,trim: true,},
     price: {type:Number, required:true,min:0,},
     category: {type:String, required:true,trim: true},
-    description: { type: String, required:false,trim: true},
-    photo: {type:String, required: false}
+    description: { type: String, required:true,trim: true},
+    photo: {type:String, required: true,trim:true}
 });
 
 module.exports = mongoose.model('Task', taskSchema);

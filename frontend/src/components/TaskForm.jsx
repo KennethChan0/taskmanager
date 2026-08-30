@@ -47,48 +47,64 @@ const TaskForm = ({ tasks, setTasks, editingTask, setEditingTask }) => {
         description: '',
         photo: '' });
     } catch (error) {
-      alert('Failed to save menu item.');
-    }
+      const errors = error.response?.data?.errors;
+
+      alert(
+        errors?.title ||
+        errors?.price ||
+        errors?.category ||
+        errors?.description ||
+        errors?.photo ||
+        'Failed to save menu item.');
+        }
   };
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 shadow-md rounded mb-6">
-      <h1 className="text-2xl font-bold mb-4">{editingTask ? 'Edit Munu Item' : 'Add Menu Item'}</h1>
+      <h1 className="text-2xl font-bold mb-4">{editingTask ? 'Edit Menu Item' : 'Add Menu Item'}</h1>
+
       <input
+        required
         type="text"
         name="title"
-        placeholder="Menu Name"
+        placeholder="Menu Name(required)"
         value={formData.title}
         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
       <input
+        required
         type="number"
         name="price"
-        placeholder="Price"
+        placeholder="Price(required)"
         value={formData.price}
         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+        min="0.01"
+        step="0.01"
         className="w-full mb-4 p-2 border rounded"
       />
       <input
+      required
         type="text"
         name="category"
-        placeholder="Category"
+        placeholder="Category(required)"
         value={formData.category}
         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
       <textarea
+      required
         name="description"
-        placeholder="Description (optional)"
+        placeholder="Description(required)"
         value={formData.description}
         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
       <input
+        required
         type="url"
         name="photo"
-       placeholder="Photo URL (optional)"
+        placeholder="Photo URL(required)"
         value={formData.photo}
         onChange={(e) => setFormData({ ...formData, photo: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
