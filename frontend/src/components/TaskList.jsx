@@ -5,6 +5,10 @@ const TaskList = ({ tasks, setTasks, setEditingTask }) => {
   const { user } = useAuth();
 
   const handleDelete = async (taskId) => {
+    const confirmation = window.confirm("Are you sure to remove this item?");
+    if (confirmation === false){
+      return false;
+    }
     try {
       await axiosInstance.delete(`/api/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${user.token}` },
